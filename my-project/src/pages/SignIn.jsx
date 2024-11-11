@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
+import axios from 'axios'; // Import Axios
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -9,8 +11,8 @@ function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
-
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -38,18 +40,28 @@ function SignIn() {
       return;
     }
 
-    // Mock API call or authentication logic
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Remember Me:', rememberMe);
+    try {
+      // Make POST request to the Flask backend
+      const response = await axios.post('http://localhost:5000/login', {
+        username_or_email: email, // Send the email as username or email
+        password: password,
+      });
 
-    // Simulate a successful login
-    setTimeout(() => {
-      setSuccess('Successfully signed in!');
+      // Handle success response
+      setSuccess(response.data.message);
       setLoading(false);
+
+      // Redirect to home page
+      window.location.href = 'http://localhost:5174';
+
+      // Optionally, clear the form on success
       setEmail('');
       setPassword('');
-    }, 1000);
+    } catch (error) {
+      // Handle error response
+      setError(error.response ? error.response.data.message : 'Login failed. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (

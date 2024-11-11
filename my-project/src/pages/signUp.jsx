@@ -37,7 +37,7 @@ const RegistrationForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        const response = await axios.post('http://localhost:5000/register', formData, {
+        const response = await axios.post('https://somali-education-platform.onrender.com/register', formData, {
             headers: {
                 'Content-Type': 'application/json'
             }

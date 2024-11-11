@@ -42,7 +42,7 @@ function SignIn() {
 
     try {
       // Make POST request to the Flask backend
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('https://somali-education-platform.onrender.com/login', {
         username_or_email: email, // Send the email as username or email
         password: password,
       });
@@ -52,7 +52,7 @@ function SignIn() {
       setLoading(false);
 
       // Redirect to home page
-      window.location.href = 'http://localhost:5174';
+      window.location.href = 'http://localhost:5173';
 
       // Optionally, clear the form on success
       setEmail('');
